@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedMind — Risk Calculator</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="/"><span class="brand-mark">🫀</span> MedMind</a>
+    <div class="nav-links">
+      <a href="/#datasets">Datasets</a>
+      <a href="/#results">Results</a>
+      <a href="/#figures">Figures</a>
+      <a href="/calculator" class="btn">Calculator</a>
+    </div>
+  </div>
+</nav>
+
+<header class="calc-header">
+  <div class="container">
+    <a class="back-link" href="/" style="color:#cfe0f2;">← Back to overview</a>
+    <h1>Heart Disease Risk — What-If Simulator</h1>
+    <p>Educational decision-support prototype, not a diagnostic device. Two separate models, two separate tabs — see below for why.</p>
+  </div>
+</header>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="uci">🩺 Clinical Risk (UCI, n=918)</button>
+    <button class="tab-btn" data-tab="brfss">🚬 Lifestyle Risk (BRFSS, n=253,680)</button>
+  </div>
+
+  <!-- ============================= UCI TAB ============================= -->
+  <div class="tab-panel active" id="tab-uci">
+    <div class="calc-layout">
+      <div class="form-card">
+        <h3>1. Patient profile</h3>
+        <p class="hint">Clinical/demographic values — held fixed while you explore the sliders below.</p>
+
+        <div class="field-2col">
+          <div class="field">
+            <label>Age (years)</label>
+            <input type="number" id="uci_age" min="18" max="100" value="55">
+          </div>
+          <div class="field">
+            <label>Sex</label>
+            <div class="radio-row">
+              <label><input type="radio" name="uci_sex" value="1" checked> Male</label>
+              <label><input type="radio" name="uci_sex" value="0"> Female</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Chest pain type</label>
+          <select id="uci_cp">
+            <option value="typical angina">typical angina</option>
+            <option value="atypical angina">atypical angina</option>
+            <option value="non-anginal">non-anginal</option>
+            <option value="asymptomatic" selected>asymptomatic</option>
+          </select>
+        </div>
+
+        <div class="field-2col">
+          <div class="field">
+            <label>Resting ECG result</label>
+            <select id="uci_restecg">
+              <option value="normal" selected>normal</option>
+              <option value="st-t abnormality">st-t abnormality</option>
+              <option value="lv hypertrophy">lv hypertrophy</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Thallium stress test result</label>
+            <select id="uci_thal">
+              <option value="normal" selected>normal</option>
+              <option value="fixed defect">fixed defect</option>
+              <option value="reversable defect">reversable defect</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="range-row"><label>Max heart rate achieved (bpm)</label><span class="val" id="uci_thalach_val">150</span></div>
+          <input type="range" id="uci_thalach" min="60" max="220" value="150">
+        </div>
+
+        <div class="field">
+          <label>Exercise-induced angina</label>
+          <div class="radio-row">
+            <label><input type="radio" name="uci_exang" value="0" checked> No</label>
+            <label><input type="radio" name="uci_exang" value="1"> Yes</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="range-row"><label>ST depression (oldpeak, mm)</label><span class="val" id="uci_oldpeak_val">1.0</span></div>
+          <input type="range" id="uci_oldpeak" min="0" max="6.5" step="0.1" value="1.0">
+        </div>
+
+        <div class="field-2col">
+          <div class="field">
+            <label>ST segment slope</label>
+            <select id="uci_slope">
+              <option value="upsloping" selected>upsloping</option>
+              <option value="flat">flat</option>
+              <option value="downsloping">downsloping</option>
+            </select>
+          </div>
+          <div class="field">
+            <div class="range-row"><label>Vessels on fluoroscopy (ca)</label><span class="val" id="uci_ca_val">0</span></div>
+            <input type="range" id="uci_ca" min="0" max="3" value="0">
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;">2. What-if sliders — modifiable risk factors</h3>
+        <p class="hint">Drag these and watch the risk + explanation update.</p>
+
+        <div class="field">
+          <div class="range-row"><label>Total cholesterol (mg/dl)</label><span class="val" id="uci_chol_val">240</span></div>
+          <input type="range" id="uci_chol" min="100" max="600" step="5" value="240">
+          <div class="field-help">Desirable: &lt;200. Borderline high: 200-239. High: ≥240.</div>
+        </div>
+
+        <div class="field">
+          <div class="range-row"><label>Resting systolic blood pressure (mm Hg)</label><span class="val" id="uci_trestbps_val">130</span></div>
+          <input type="range" id="uci_trestbps" min="80" max="220" step="2" value="130">
+          <div class="field-help">Normal: &lt;120. Elevated: 120-129. High (stage 1): 130-139.</div>
+        </div>
+
+        <div class="field">
+          <label>Fasting blood sugar &gt; 120 mg/dl</label>
+          <div class="radio-row">
+            <label><input type="radio" name="uci_fbs" value="0" checked> No</label>
+            <label><input type="radio" name="uci_fbs" value="1"> Yes</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <h3>3. Predicted risk</h3>
+        <div id="uci_result_box"><p class="loading">Adjust the inputs to see a prediction…</p></div>
+        <h3 style="margin-top:20px;">4. Why the model said that (SHAP)</h3>
+        <div id="uci_chart_box"><p class="loading">Chart will appear here.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ BRFSS TAB ============================ -->
+  <div class="tab-panel" id="tab-brfss">
+    <div class="calc-layout">
+      <div class="form-card">
+        <h3>1. Respondent profile</h3>
+        <p class="hint">Clinical/demographic values — held fixed while you explore the sliders below.</p>
+
+        <div class="field-2col">
+          <div class="field">
+            <label>Age group</label>
+            <select id="brfss_age">
+              <option value="1">18-24</option><option value="2">25-29</option>
+              <option value="3">30-34</option><option value="4">35-39</option>
+              <option value="5">40-44</option><option value="6">45-49</option>
+              <option value="7" selected>50-54</option><option value="8">55-59</option>
+              <option value="9">60-64</option><option value="10">65-69</option>
+              <option value="11">70-74</option><option value="12">75-79</option>
+              <option value="13">80+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Sex</label>
+            <div class="radio-row">
+              <label><input type="radio" name="brfss_sex" value="1" checked> Male</label>
+              <label><input type="radio" name="brfss_sex" value="0"> Female</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Self-rated general health</label>
+          <select id="brfss_genhlth">
+            <option value="1">Excellent</option><option value="2">Very good</option>
+            <option value="3" selected>Good</option><option value="4">Fair</option>
+            <option value="5">Poor</option>
+          </select>
+        </div>
+
+        <div class="field-2col">
+          <div class="field">
+            <label>Education level</label>
+            <select id="brfss_education">
+              <option value="1">Never attended / kindergarten only</option>
+              <option value="2">Elementary (grades 1-8)</option>
+              <option value="3">Some high school</option>
+              <option value="4">High school graduate</option>
+              <option value="5" selected>Some college / technical school</option>
+              <option value="6">College graduate</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Household income</label>
+            <select id="brfss_income">
+              <option value="1">&lt; $10,000</option>
+              <option value="2">$10,000-14,999</option>
+              <option value="3">$15,000-19,999</option>
+              <option value="4">$20,000-24,999</option>
+              <option value="5">$25,000-34,999</option>
+              <option value="6" selected>$35,000-49,999</option>
+              <option value="7">$50,000-74,999</option>
+              <option value="8">&gt;= $75,000</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Told you have high blood pressure</label>
+          <div class="radio-row">
+            <label><input type="radio" name="brfss_highbp" value="0" checked> No</label>
+            <label><input type="radio" name="brfss_highbp" value="1"> Yes</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Told you have high cholesterol</label>
+          <div class="radio-row">
+            <label><input type="radio" name="brfss_highchol" value="0" checked> No</label>
+            <label><input type="radio" name="brfss_highchol" value="1"> Yes</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Diabetes status</label>
+          <select id="brfss_diabetes">
+            <option value="0" selected>No diabetes</option>
+            <option value="1">Prediabetes</option>
+            <option value="2">Diabetes</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Serious difficulty walking/climbing stairs</label>
+          <div class="radio-row">
+            <label><input type="radio" name="brfss_diffwalk" value="0" checked> No</label>
+            <label><input type="radio" name="brfss_diffwalk" value="1"> Yes</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Ever told you had a stroke</label>
+          <div class="radio-row">
+            <label><input type="radio" name="brfss_stroke" value="0" checked> No</label>
+            <label><input type="radio" name="brfss_stroke" value="1"> Yes</label>
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;">2. What-if sliders — modifiable lifestyle factors</h3>
+        <p class="hint">The sliders the UCI model couldn't offer — smoking, BMI, diet, and activity.</p>
+
+        <div class="field">
+          <div class="range-row"><label>BMI (kg/m²)</label><span class="val" id="brfss_bmi_val">27</span></div>
+          <input type="range" id="brfss_bmi" min="12" max="60" value="27">
+          <div class="field-help">Underweight &lt;18.5, healthy 18.5-24.9, overweight 25-29.9, obese ≥30.</div>
+        </div>
+
+        <div class="field">
+          <label>Smoked at least 100 cigarettes in your life</label>
+          <div class="radio-row">
+            <label><input type="radio" name="brfss_smoker" value="0" checked> No</label>
+            <label><input type="radio" name="brfss_smoker" value="1"> Yes</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Physical activity in past 30 days</label>
+          <div class="radio-row">
+            <label><input type="radio" name="brfss_physact" value="1" checked> Yes</label>
+            <label><input type="radio" name="brfss_physact" value="0"> No</label>
+          </div>
+        </div>
+        <div class="field-2col">
+          <div class="field">
+            <label>Eats fruit 1+ times/day</label>
+            <div class="radio-row">
+              <label><input type="radio" name="brfss_fruits" value="1" checked> Yes</label>
+              <label><input type="radio" name="brfss_fruits" value="0"> No</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Eats vegetables 1+ times/day</label>
+            <div class="radio-row">
+              <label><input type="radio" name="brfss_veggies" value="1" checked> Yes</label>
+              <label><input type="radio" name="brfss_veggies" value="0"> No</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Heavy alcohol consumption</label>
+          <div class="radio-row">
+            <label><input type="radio" name="brfss_alcohol" value="0" checked> No</label>
+            <label><input type="radio" name="brfss_alcohol" value="1"> Yes</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <h3>3. Predicted risk</h3>
+        <div id="brfss_result_box"><p class="loading">Adjust the inputs to see a prediction…</p></div>
+        <h3 style="margin-top:20px;">4. Why the model said that (SHAP)</h3>
+        <div id="brfss_chart_box"><p class="loading">Chart will appear here.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    Two-dataset project. This calculator reuses the exact same trained
+    pipelines and SHAP logic as the project's notebook and evaluation report
+    — no duplicated or re-implemented model logic.
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/calculator.js') }}"></script>
+</body>
+</html>
