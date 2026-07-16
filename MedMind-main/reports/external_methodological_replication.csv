@@ -1,0 +1,2 @@
+check,n_rows,positive_rate,auroc_mean,auroc_ci_lo,auroc_ci_hi,calibration_slope,calibration_intercept,best_params
+methodological_replication_framingham_own_task,4240,0.15188679245283018,0.7234115277559576,0.7032531729626295,0.744095591287128,1.0483787333405856,-1.7077343371273201,{'model__C': 0.01}

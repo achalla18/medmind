@@ -1,0 +1,21 @@
+feature,mean_abs_shap
+num__ap_hi,0.8233728
+num__age_years,0.27278596
+cat__cholesterol_well above normal,0.13656515
+cat__cholesterol_normal,0.10686485
+num__ap_lo,0.10196275
+num__bmi,0.07653969
+cat__active_0,0.062972285
+num__weight,0.04365673
+cat__gluc_well above normal,0.032433823
+num__height,0.025323734
+cat__smoke_0,0.023639388
+cat__alco_0,0.019421741
+cat__gluc_normal,0.011497981
+cat__gender_Female,0.010254364
+cat__gluc_above normal,0.009211697
+cat__cholesterol_above normal,0.0013632033
+cat__gender_Male,0.0
+cat__smoke_1,0.0
+cat__alco_1,0.0
+cat__active_1,0.0

@@ -1,0 +1,2 @@
+check,n_framingham_rows_used,auroc_mean,auroc_ci_lo,auroc_ci_hi,calibration_slope,calibration_intercept,caveat
+naive_transportability_4_shared_features,4190,0.6795171985911703,0.6582082965920664,0.7002397345246608,0.6268707962131728,-1.4329450687249472,"Different target definitions (prevalent CAD vs 10-yr incident CHD); not a valid clinical external validation, see docstring."

@@ -1,0 +1,28 @@
+# Core data / ML
+pandas==2.3.3
+numpy==2.2.6
+scikit-learn==1.7.2
+imbalanced-learn==0.14.2
+
+# xgboost is pinned specifically -- newer 3.x releases changed an internal
+# model-serialization format that breaks SHAP's TreeExplainer. Hit and
+# confirmed during this project, not a hypothetical incompatibility.
+xgboost==2.1.4
+
+# Explainability
+shap==0.49.1
+
+# Plotting
+matplotlib==3.10.9
+
+# Part 2 dashboard
+streamlit==1.59.2
+
+# Model persistence
+joblib==1.5.3
+
+# Notebook execution (Part 1 deliverable)
+jupyter==1.1.1
+nbformat==5.10.4
+nbconvert==7.17.1
+ipykernel==7.3.0

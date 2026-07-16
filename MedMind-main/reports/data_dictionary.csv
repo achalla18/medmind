@@ -1,0 +1,15 @@
+column,type,unit,description
+age,numeric,years,Patient age at the time of the study visit.
+sex,binary,"1=male, 0=female",Biological sex as recorded in the source studies.
+cp,categorical,n/a,"Chest pain type: typical angina, atypical angina, non-anginal pain, or asymptomatic. Asymptomatic presentation is counter-intuitively one of the strongest predictors of disease in this dataset."
+trestbps,numeric,mm Hg,Resting systolic blood pressure on admission to hospital.
+chol,numeric,mg/dl,"Serum cholesterol. A recorded value of 0 is not a real cholesterol reading (you cannot have zero serum cholesterol and be alive) -- it is a sentinel value some sites used for 'not measured'. Treated as missing, not as zero, everywhere in this project."
+fbs,binary,"1=true, 0=false",Fasting blood sugar > 120 mg/dl.
+restecg,categorical,n/a,"Resting electrocardiogram result: normal, ST-T wave abnormality, or probable/definite left ventricular hypertrophy."
+thalach,numeric,bpm,Maximum heart rate achieved during the exercise stress test.
+exang,binary,"1=yes, 0=no",Exercise-induced angina (chest pain during the stress test).
+oldpeak,numeric,mm ST depression,"ST depression induced by exercise relative to rest, an ECG marker of reduced blood flow to the heart muscle."
+slope,categorical,n/a,"Slope of the peak exercise ST segment: upsloping (least concerning), flat, or downsloping (most concerning). Missing in about a third of rows -- see the data audit for why."
+ca,numeric (0-3),count of vessels,"Number of major coronary vessels colored by fluoroscopy, an invasive test. Missing in the large majority of non-Cleveland rows (see audit) because most sites didn't perform this test."
+thal,categorical,n/a,"Thallium stress test result: normal, fixed defect, or reversible defect. Also an invasive/specialized test, missing in about half the dataset for the same site-driven reason as `ca`."
+target,binary (label),"1=disease, 0=no disease","Presence of heart disease, binarized here from the source `num` column (an angiographic severity scale 0-4) into absent (num=0) vs. present (num>=1)."

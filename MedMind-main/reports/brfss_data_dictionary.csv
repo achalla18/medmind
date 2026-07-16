@@ -1,0 +1,23 @@
+column,type,unit,description
+HeartDiseaseorAttack,binary (label),"1=yes, 0=no",Self-reported: has a doctor/nurse ever told you that you had coronary heart disease (CHD) or a myocardial infarction (MI)?
+HighBP,binary,"1=yes, 0=no",Told by a health professional you have high blood pressure.
+HighChol,binary,"1=yes, 0=no",Told by a health professional you have high cholesterol.
+CholCheck,binary,"1=yes, 0=no",Had a cholesterol check within the last 5 years.
+BMI,numeric,kg/m^2,"Body Mass Index, self-reported height/weight."
+Smoker,binary (lifestyle),"1=yes, 0=no",Smoked at least 100 cigarettes in your entire life.
+Stroke,binary,"1=yes, 0=no",Ever told you had a stroke.
+Diabetes,categorical (0/1/2),n/a,"0=no diabetes, 1=prediabetes, 2=diabetes. The closest proxy to a glucose measurement available in this survey (BRFSS does not ask for a lab glucose value)."
+PhysActivity,binary (lifestyle),"1=yes, 0=no","Physical activity in past 30 days, outside of a regular job."
+Fruits,binary (lifestyle),"1=yes, 0=no",Consumes fruit 1+ times per day.
+Veggies,binary (lifestyle),"1=yes, 0=no",Consumes vegetables 1+ times per day.
+HvyAlcoholConsump,binary (lifestyle),"1=yes, 0=no","Heavy drinker (adult men >14 drinks/week, women >7 drinks/week)."
+AnyHealthcare,binary,"1=yes, 0=no",Has any kind of health care coverage.
+NoDocbcCost,binary,"1=yes, 0=no",Needed to see a doctor in the past year but couldn't because of cost.
+GenHlth,ordinal (1-5),n/a,Self-rated general health: 1=excellent ... 5=poor.
+MentHlth,numeric,days (0-30),Days of poor mental health in the past 30 days.
+PhysHlth,numeric,days (0-30),Days of poor physical health in the past 30 days.
+DiffWalk,binary,"1=yes, 0=no",Serious difficulty walking or climbing stairs.
+Sex,binary,"1=male, 0=female",Respondent sex.
+Age,ordinal (1-13),13 age bands,13-level age category (1=18-24 ... 13=80+); not raw years.
+Education,ordinal (1-6),n/a,"Highest education level completed, 1 (none) to 6 (college grad)."
+Income,ordinal (1-8),n/a,"Household income bracket, 1 (<$10k) to 8 (>=$75k)."
