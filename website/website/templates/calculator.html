@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedMind — Risk Calculator</title>
+<title>MedMind: Risk Calculator</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
 <nav class="site-nav">
   <div class="container">
-    <a class="brand" href="/"><span class="brand-mark">🫀</span> MedMind</a>
+    <a class="brand" href="/">MedMind</a>
     <div class="nav-links">
       <a href="/#datasets">Datasets</a>
       <a href="/#results">Results</a>
@@ -23,15 +23,15 @@
 <header class="calc-header">
   <div class="container">
     <a class="back-link" href="/" style="color:#cfe0f2;">← Back to overview</a>
-    <h1>Heart Disease Risk — What-If Simulator</h1>
-    <p>Educational decision-support prototype, not a diagnostic device. Two separate models, two separate tabs — see below for why.</p>
+    <h1>Heart Disease Risk: What-If Simulator</h1>
+    <p>This is an educational prototype, not a diagnostic tool. Two different models, two separate tabs, and here's why.</p>
   </div>
 </header>
 
 <div class="container">
   <div class="tabs">
-    <button class="tab-btn active" data-tab="uci">🩺 Clinical Risk (UCI, n=918)</button>
-    <button class="tab-btn" data-tab="brfss">🚬 Lifestyle Risk (BRFSS, n=253,680)</button>
+    <button class="tab-btn active" data-tab="uci">Clinical Risk (UCI, n=918)</button>
+    <button class="tab-btn" data-tab="brfss">Lifestyle Risk (BRFSS, n=253,680)</button>
   </div>
 
   <!-- ============================= UCI TAB ============================= -->
@@ -39,7 +39,7 @@
     <div class="calc-layout">
       <div class="form-card">
         <h3>1. Patient profile</h3>
-        <p class="hint">Clinical/demographic values — held fixed while you explore the sliders below.</p>
+        <p class="hint">These stay fixed while you play with the sliders below.</p>
 
         <div class="field-2col">
           <div class="field">
@@ -117,8 +117,8 @@
           </div>
         </div>
 
-        <h3 style="margin-top:24px;">2. What-if sliders — modifiable risk factors</h3>
-        <p class="hint">Drag these and watch the risk + explanation update.</p>
+        <h3 style="margin-top:24px;">2. What-if sliders: the risk factors you can change</h3>
+        <p class="hint">Drag these and watch the risk and its explanation update.</p>
 
         <div class="field">
           <div class="range-row"><label>Total cholesterol (mg/dl)</label><span class="val" id="uci_chol_val">240</span></div>
@@ -155,7 +155,7 @@
     <div class="calc-layout">
       <div class="form-card">
         <h3>1. Respondent profile</h3>
-        <p class="hint">Clinical/demographic values — held fixed while you explore the sliders below.</p>
+        <p class="hint">These stay fixed while you play with the sliders below.</p>
 
         <div class="field-2col">
           <div class="field">
@@ -252,8 +252,8 @@
           </div>
         </div>
 
-        <h3 style="margin-top:24px;">2. What-if sliders — modifiable lifestyle factors</h3>
-        <p class="hint">The sliders the UCI model couldn't offer — smoking, BMI, diet, and activity.</p>
+        <h3 style="margin-top:24px;">2. What-if sliders: the lifestyle factors you can change</h3>
+        <p class="hint">The sliders the UCI model couldn't offer: smoking, BMI, diet, and activity.</p>
 
         <div class="field">
           <div class="range-row"><label>BMI (kg/m²)</label><span class="val" id="brfss_bmi_val">27</span></div>
@@ -312,9 +312,9 @@
 
 <footer>
   <div class="container">
-    Two-dataset project. This calculator reuses the exact same trained
-    pipelines and SHAP logic as the project's notebook and evaluation report
-    — no duplicated or re-implemented model logic.
+    This calculator runs on the same trained pipelines and SHAP logic as
+    the project's notebook and evaluation report, nothing here is
+    reimplemented or duplicated.
   </div>
 </footer>
 

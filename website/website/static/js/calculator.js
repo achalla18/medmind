@@ -17,7 +17,7 @@ function renderResult(boxId, chartId, data) {
       <span class="risk-pct" style="color:${data.color}">${data.risk_pct.toFixed(1)}%</span>
       <span class="risk-band" style="color:${data.color}">${data.band}</span>
     </div>
-    <p class="result-note">Model estimate from training data, not a clinical probability — see the project report for calibration analysis.</p>
+    <p class="result-note">This is a model estimate from training data, not a clinical probability. See the project report for the calibration analysis.</p>
   `;
   const chartBox = document.getElementById(chartId);
   chartBox.innerHTML = `<img class="shap-img" src="${data.chart}" alt="SHAP waterfall explanation">

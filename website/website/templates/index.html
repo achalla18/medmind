@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedMind: AI-Powered Heart Disease Risk Prediction</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="/">MedMind</a>
+    <div class="nav-links">
+      <a href="#datasets">Datasets</a>
+      <a href="#results">Results</a>
+      <a href="#figures">Figures</a>
+      <a href="/calculator" class="btn">Try the calculator</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="badges">
+      <span class="badge">Logistic Regression + XGBoost</span>
+      <span class="badge">Leakage-free pipelines</span>
+      <span class="badge">SHAP explainability</span>
+      <span class="badge">Two independent datasets</span>
+    </div>
+    <h1>Predicting heart disease risk early, and showing the work behind it.</h1>
+    <p class="lead">
+      MedMind trains heart disease risk models on two different public
+      datasets and backs them with real evaluation numbers, not just a
+      headline accuracy score. Then it hands you a simulator: plug in a
+      patient or survey profile, drag the sliders on things like
+      cholesterol or smoking, and watch the predicted risk change in real
+      time, along with an explanation of exactly why.
+    </p>
+    <div class="cta-row">
+      <a href="/calculator" class="btn">Try the risk calculator →</a>
+      <a href="#results" class="btn btn-outline">See the results</a>
+    </div>
+  </div>
+</header>
+
+<section id="datasets">
+  <div class="container">
+    <h2 class="section-title">Two datasets, kept separate on purpose</h2>
+    <p class="section-sub">
+      No single public dataset has cholesterol, blood pressure, smoking,
+      BMI, and glucose as real, trainable features all at once. Rather
+      than force one blended model that quietly mixes a diagnostic test
+      result with a self-reported survey answer, this project trains and
+      reports two separate models, each scoped to what its data can
+      actually support.
+    </p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>UCI Heart Disease (clinical model)</h3>
+        <p>
+          918 patients after cleaning, combining data from Cleveland,
+          Hungary, Switzerland, and the VA in Long Beach. It predicts
+          <strong>angiographically-confirmed coronary artery disease</strong>
+          using chest pain type, resting ECG, exercise stress test
+          results, fluoroscopy vessel counts, and thallium test results:
+          real clinical test data from patients already being evaluated
+          at a hospital.
+        </p>
+      </div>
+      <div class="card">
+        <h3>CDC BRFSS 2015 (lifestyle model)</h3>
+        <p>
+          253,680 people who answered the CDC's Behavioral Risk Factor
+          Surveillance System survey. It predicts <strong>whether someone
+          has ever been told they have heart disease or had a heart
+          attack</strong>, based on smoking, BMI, diet, physical activity,
+          alcohol use, and demographics: everyday survey answers, not lab
+          results.
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h3>Why not combine them into one bigger model?</h3>
+      <table class="results">
+        <tr><th></th><th>UCI</th><th>BRFSS</th></tr>
+        <tr><td>Target</td><td>Angiographic CAD presence at time of testing</td><td>Self-reported lifetime heart disease/attack history</td></tr>
+        <tr><td>Population</td><td>Hospital-referral patients</td><td>General population survey</td></tr>
+        <tr><td>Has smoking / BMI / diet?</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Has chest pain / ECG / fluoroscopy / thallium?</td><td>Yes</td><td>No</td></tr>
+        <tr><td>Size</td><td>918</td><td>253,680</td></tr>
+      </table>
+      <p style="margin-top:14px;">
+        Pooling them would mean treating a diagnostic test result and a
+        self-reported survey answer as if they were the same kind of
+        data, even though they predict different outcomes in different
+        populations. So they stay separate, which is why the calculator
+        has two clearly labeled tabs instead of one blended one.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="results" class="alt">
+  <div class="container">
+    <h2 class="section-title">Headline results</h2>
+    <p class="section-sub">Both models land right in line with the published benchmarks for each dataset.</p>
+
+    <h3>UCI clinical model: 5-fold nested cross-validation, bootstrap 95% CI</h3>
+    <table class="results">
+      <tr><th>Model</th><th>AUROC (95% CI)</th><th>Sensitivity</th><th>Specificity</th><th>Precision</th><th>F1</th></tr>
+      <tr><td>Logistic Regression</td><td>0.879 (0.856-0.901)</td><td>0.801</td><td>0.793</td><td>0.827</td><td>0.814</td></tr>
+      <tr><td>XGBoost</td><td>0.883 (0.860-0.904)</td><td>0.843</td><td>0.759</td><td>0.812</td><td>0.827</td></tr>
+    </table>
+    <p class="section-sub" style="margin-top:14px;">
+      Both land around an AUROC of 0.88, matching the widely cited
+      benchmark (0.886) for this dataset. The strongest SHAP drivers were
+      asymptomatic chest pain, ST depression, sex, cholesterol,
+      exercise-induced angina, max heart rate, thallium results, age, and
+      vessels seen on fluoroscopy: all established cardiac risk factors.
+    </p>
+
+    <h3 style="margin-top:36px;">BRFSS lifestyle model: held-out 20% test split</h3>
+    <table class="results">
+      <tr><th>Model</th><th>AUROC (95% CI)</th><th>Sensitivity</th><th>Specificity</th><th>Precision</th><th>F1</th></tr>
+      <tr><td>Logistic Regression</td><td>0.847 (0.842-0.852)</td><td>0.797</td><td>0.749</td><td>0.248</td><td>0.379</td></tr>
+      <tr><td>XGBoost</td><td>0.850 (0.845-0.855)</td><td>0.817</td><td>0.734</td><td>0.242</td><td>0.373</td></tr>
+    </table>
+    <p class="section-sub" style="margin-top:14px;">
+      An AUROC of about 0.85 matches the published benchmark (0.848).
+      Both models correct for the dataset's roughly 90/10 class
+      imbalance. By SHAP importance, the strongest predictors are age,
+      self-rated general health, high blood pressure, sex, and high
+      cholesterol, all clinical or demographic factors.
+      <strong>Lifestyle factors (smoking, diet, activity, alcohol, BMI)
+      only account for about 7% of the total SHAP-explained
+      importance</strong>, with smoking the strongest single lifestyle
+      factor.
+    </p>
+
+    <div class="grid-3" style="margin-top:32px;">
+      <div class="card stat-card"><div class="stat-value">0.883</div><div class="stat-label">UCI AUROC (XGBoost)</div></div>
+      <div class="card stat-card"><div class="stat-value">0.850</div><div class="stat-label">BRFSS AUROC (XGBoost)</div></div>
+      <div class="card stat-card"><div class="stat-value">253,680</div><div class="stat-label">BRFSS survey respondents</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="figures">
+  <div class="container">
+    <h2 class="section-title">Model evaluation figures</h2>
+    <p class="section-sub">ROC curves, calibration, and SHAP global importance for both models.</p>
+    <div class="figure-grid">
+      <div class="figure-card">
+        <img src="{{ url_for('static', filename='figures/roc_xgboost.png') }}" alt="UCI ROC curve">
+        <div class="cap">UCI clinical model: ROC curve (XGBoost)</div>
+      </div>
+      <div class="figure-card">
+        <img src="{{ url_for('static', filename='figures/roc_brfss_xgboost.png') }}" alt="BRFSS ROC curve">
+        <div class="cap">BRFSS lifestyle model: ROC curve (XGBoost)</div>
+      </div>
+      <div class="figure-card">
+        <img src="{{ url_for('static', filename='figures/calibration_xgboost.png') }}" alt="UCI calibration curve">
+        <div class="cap">UCI clinical model: calibration curve</div>
+      </div>
+      <div class="figure-card">
+        <img src="{{ url_for('static', filename='figures/calibration_brfss_xgboost.png') }}" alt="BRFSS calibration curve">
+        <div class="cap">BRFSS lifestyle model: calibration curve</div>
+      </div>
+      <div class="figure-card">
+        <img src="{{ url_for('static', filename='figures/shap_global_importance.png') }}" alt="UCI SHAP global importance">
+        <div class="cap">UCI clinical model: global SHAP importance</div>
+      </div>
+      <div class="figure-card">
+        <img src="{{ url_for('static', filename='figures/brfss_shap_global_importance.png') }}" alt="BRFSS SHAP global importance">
+        <div class="cap">BRFSS lifestyle model: global SHAP importance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <h2 class="section-title">Try it yourself</h2>
+    <p class="section-sub">
+      Enter a patient or respondent profile, drag the sliders on the
+      risk factors you can actually change, and watch the predicted
+      risk and its SHAP explanation update in real time, using the same
+      trained models from the evaluation above.
+    </p>
+    <a href="/calculator" class="btn">Open the risk calculator →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    MedMind is a two-dataset heart disease risk project using logistic
+    regression and XGBoost, leakage-free pipelines, and SHAP
+    explainability. It's an educational prototype, not a diagnostic
+    tool.
+  </div>
+</footer>
+
+</body>
+</html>
